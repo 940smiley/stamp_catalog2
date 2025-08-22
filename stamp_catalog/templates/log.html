@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Stamp Catalog - Log{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">Stamp Collection Log</h1>
+        
+        <div class="d-flex justify-content-between mb-3">
+            <div>
+                <button class="btn btn-secondary" onclick="window.location.href='/'">Add New Stamp</button>
+            </div>
+            <div>
+                <button class="btn btn-danger" onclick="cleanupLog()">Clean Up Log</button>
+            </div>
+        </div>
+        
+        {% if stamps|length == 0 %}
+        <div class="alert alert-info" role="alert">
+            No stamps have been cataloged yet. <a href="/" class="alert-link">Upload your first stamp</a>
+        </div>
+        {% else %}
+        <div class="row">
+            {% for stamp in stamps %}
+            <div class="col-md-4">
+                <div class="card stamp-card">
+                    <img src="{{ url_for('static', filename='images/' + stamp.original_image) }}" 
+                         class="card-img-top stamp-image" alt="Stamp Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ stamp.features.name }}</h5>
+                        <p class="card-text">
+                            <strong>Country:</strong> {{ stamp.features.country_of_origin }}<br>
+                            <strong>Date:</strong> {{ stamp.features.date }}<br>
+                            <strong>Denomination:</strong> {{ stamp.features.denomination }}<br>
+                            <strong>Value:</strong> {{ stamp.features.value }}<br>
+                            <strong>Type:</strong> {{ stamp.features.type }}
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <a href="/edit/{{ stamp.id }}" class="btn btn-primary">Edit Details</a>
+                            <a href="/export/ebay/{{ stamp.id }}" class="btn btn-success">Export to eBay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function cleanupLog() {
+    if (confirm('Are you sure you want to clean up your log? This will remove all entries.')) {
+        fetch('/cleanup', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Log cleaned up successfully');
+                location.reload();
+            } else {
+                alert('Error cleaning up log: ' + data.error);
+            }
+        })
+        .catch(error => {
+            alert('An error occurred: ' + error.message);
+        });
+    }
+}
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

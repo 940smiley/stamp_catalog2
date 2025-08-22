@@ -1,0 +1,1 @@
+mv: cannot stat 'test_images/test_stamp.jpg': No such file or directory

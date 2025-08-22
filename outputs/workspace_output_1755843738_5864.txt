@@ -1,0 +1,2 @@
+Status Code: 200
+Postcard page successfully rendered

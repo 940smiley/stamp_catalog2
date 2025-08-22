@@ -1,0 +1,3 @@
+Default commerce configuration created at ../config/commerce_config.json
+Please update the API keys for each platform.
+Commerce integrator initialized successfully

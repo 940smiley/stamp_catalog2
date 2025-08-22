@@ -1,0 +1,1 @@
+-rw-r--r-- 1 root root 30051 Aug 22 06:23 stamp_catalog/stamp_catalog_20250822_062329.zip

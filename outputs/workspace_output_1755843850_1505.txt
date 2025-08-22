@@ -1,0 +1,8 @@
+Testing application routes...
+✓ Main Page (/) - Status: 200
+✓ Log Page (/log) - Status: 200
+✓ Postcard Page (/postcard) - Status: 200
+✓ Edit Page (/edit/test-id-123) - Status: 200
+✓ eBay Export Route - Status: 200
+
+Route testing completed!

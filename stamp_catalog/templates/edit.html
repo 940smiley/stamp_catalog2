@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Stamp Catalog - Edit{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">Edit Stamp Details</h1>
+        
+        <div class="card stamp-card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ stamp.features.name }}</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='images/' + stamp.original_image) }}" 
+                             class="img-fluid stamp-image" alt="Original Stamp Image">
+                        <p class="text-center"><small>Original Image</small></p>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='images/' + stamp.enhanced_image) }}" 
+                             class="img-fluid stamp-image" alt="Enhanced Stamp Image">
+                        <p class="text-center"><small>Enhanced Image</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card stamp-card">
+            <div class="card-body">
+                <h5 class="card-title">Stamp Characteristics</h5>
+                <form id="editForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" 
+                                       value="{{ stamp.features.name }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date/Era</label>
+                                <input type="text" class="form-control" id="date" 
+                                       value="{{ stamp.features.date }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Country of Origin</label>
+                                <input type="text" class="form-control" id="country" 
+                                       value="{{ stamp.features.country_of_origin }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="denomination" class="form-label">Denomination</label>
+                                <input type="text" class="form-control" id="denomination" 
+                                       value="{{ stamp.features.denomination }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="value" class="form-label">Value</label>
+                                <input type="text" class="form-control" id="value" 
+                                       value="{{ stamp.features.value }}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="theme" class="form-label">Theme</label>
+                                <input type="text" class="form-control" id="theme" 
+                                       value="{{ stamp.features.theme }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type (Block, Singular, Strip, Sheet)</label>
+                                <select class="form-control" id="type">
+                                    <option value="block" {% if stamp.features.type == 'block' %}selected{% endif %}>Block</option>
+                                    <option value="singular" {% if stamp.features.type == 'singular' %}selected{% endif %}>Singular</option>
+                                    <option value="strip" {% if stamp.features.type == 'strip' %}selected{% endif %}>Strip</option>
+                                    <option value="sheet" {% if stamp.features.type == 'sheet' %}selected{% endif %}>Sheet</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="colors" class="form-label">Colors (comma separated)</label>
+                                <input type="text" class="form-control" id="colors" 
+                                       value="{{ stamp.features.colors|join(', ') }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="cancellationDate" class="form-label">Cancellation Date</label>
+                                <input type="text" class="form-control" id="cancellationDate" 
+                                       value="{{ stamp.features.cancellation_date }}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="letterNote" class="form-label">Letter/Note Written</label>
+                                <input type="text" class="form-control" id="letterNote" 
+                                       value="{{ stamp.features.letter_or_note or '' }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="ebayTitle" class="form-label">eBay Listing Title</label>
+                        <input type="text" class="form-control" id="ebayTitle" 
+                               value="{{ stamp.features.suggestions.ebay_title }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="ebayDescription" class="form-label">eBay Listing Description</label>
+                        <textarea class="form-control" id="ebayDescription" rows="4">{{ stamp.features.suggestions.ebay_description }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="/log" class="btn btn-secondary">Back to Log</a>
+                </form>
+                
+                <div id="result" class="mt-3" style="display: none;">
+                    <div class="alert alert-success" role="alert">
+                        Changes saved successfully! <a href="/log" class="alert-link">View your log</a>
+                    </div>
+                </div>
+                
+                <div id="error" class="mt-3" style="display: none;">
+                    <div class="alert alert-danger" role="alert">
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('editForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Collect form data
+    const formData = {
+        name: document.getElementById('name').value,
+        date: document.getElementById('date').value,
+        country_of_origin: document.getElementById('country').value,
+        denomination: document.getElementById('denomination').value,
+        value: document.getElementById('value').value,
+        theme: document.getElementById('theme').value,
+        type: document.getElementById('type').value,
+        colors: document.getElementById('colors').value.split(',').map(color => color.trim()),
+        cancellation_date: document.getElementById('cancellationDate').value,
+        letter_or_note: document.getElementById('letterNote').value || null,
+        suggestions: {
+            ebay_title: document.getElementById('ebayTitle').value,
+            ebay_description: document.getElementById('ebayDescription').value
+        }
+    };
+    
+    // Send data to server
+    fetch('/edit/{{ stamp.id }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            showError(data.error);
+        } else {
+            showSuccess();
+        }
+    })
+    .catch(error => {
+        showError('An error occurred while saving: ' + error.message);
+    });
+});
+
+function showSuccess() {
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('error').style.display = 'none';
+}
+
+function showError(message) {
+    document.getElementById('errorMessage').textContent = message;
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+}
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

@@ -1,0 +1,81 @@
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://172.20.0.4:8000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+127.0.0.1 - - [22/Aug/2025 06:19:11] "[35m[1mPOST /upload HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/workspace/stamp_catalog/venv/lib/python3.11/site-packages/flask/app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/stamp_catalog/venv/lib/python3.11/site-packages/flask/app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/stamp_catalog/venv/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/stamp_catalog/venv/lib/python3.11/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/stamp_catalog/venv/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/stamp_catalog/venv/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/stamp_catalog/src/app.py", line 125, in upload_stamp
+    log_data = load_log()
+               ^^^^^^^^^^
+  File "/workspace/stamp_catalog/src/app.py", line 25, in load_log
+    return json.load(f)
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+ * Detected change in '/workspace/stamp_catalog/src/app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+ * Detected change in '/workspace/stamp_catalog/src/app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+ * Detected change in '/workspace/stamp_catalog/src/app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+127.0.0.1 - - [22/Aug/2025 06:22:18] "GET /postcard HTTP/1.1" 200 -
+ * Detected change in '/workspace/stamp_catalog/src/app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+ * Detected change in '/workspace/stamp_catalog/src/app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+ * Detected change in '/workspace/stamp_catalog/src/commerce.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 889-769-095
+127.0.0.1 - - [22/Aug/2025 06:23:58] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:23:58] "GET /log HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:23:58] "GET /postcard HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:24:11] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:24:11] "GET /log HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:24:11] "GET /postcard HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:24:11] "GET /edit/test-id-123 HTTP/1.1" 200 -
+127.0.0.1 - - [22/Aug/2025 06:24:11] "GET /export/ebay/test-id-123 HTTP/1.1" 200 -

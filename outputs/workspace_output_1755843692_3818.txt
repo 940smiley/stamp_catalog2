@@ -1,0 +1,32 @@
+[
+  {
+    "id": "test-id-123",
+    "timestamp": "2025-08-22T10:00:00",
+    "original_image": "test_stamp.jpg",
+    "straightened_image": "test_stamp_straightened.jpg",
+    "enhanced_image": "test_stamp_enhanced.jpg",
+    "item_type": "stamp",
+    "features": {
+      "name": "Test Stamp",
+      "date": "1950",
+      "cancellation_marks": false,
+      "cancellation_date": null,
+      "letter_or_note": null,
+      "colors": [
+        "red",
+        "white",
+        "blue"
+      ],
+      "denomination": "5 cents",
+      "country_of_origin": "United States",
+      "theme": "Commemorative",
+      "type": "singular",
+      "value": "$2.50",
+      "suggestions": {
+        "ebay_title": "1950 US Commemorative 5 cent stamp - Red/White/Blue",
+        "ebay_description": "A commemorative stamp from the United States dating back to 1950."
+      }
+    },
+    "user_edits": {}
+  }
+]

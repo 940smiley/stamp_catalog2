@@ -1,0 +1,6 @@
+opencv-python
+pillow
+numpy
+scikit-image
+requests
+flask

@@ -1,0 +1,4 @@
+Packaging Stamp Catalog Application...
+Application packaged successfully as stamp_catalog_20250822_062504.zip
+Installation guide created as INSTALLATION_GUIDE.md
+Packaging complete!

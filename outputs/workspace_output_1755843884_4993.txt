@@ -1,0 +1,27 @@
+total 112
+drwxr-xr-x 9 root root  4096 Aug 22 06:24 .
+drwxr-xr-x 7 root root    97 Aug 22 06:22 ..
+-rw-r--r-- 1 root root  1104 Aug 22 06:23 INSTALLATION_GUIDE.md
+-rw-r--r-- 1 root root  1081 Aug 22 06:23 LICENSE
+-rw-r--r-- 1 root root  5171 Aug 22 06:24 PROJECT_STRUCTURE.md
+-rw-r--r-- 1 root root  4218 Aug 22 06:23 README.md
+-rw-r--r-- 1 root root  4924 Aug 22 06:24 SUMMARY.md
+-rw-r--r-- 1 root root   190 Aug 22 06:20 app.log
+drwxr-xr-x 2 root root    34 Aug 22 06:23 config
+-rw-r--r-- 1 root root  4018 Aug 22 06:24 demo.py
+drwxr-xr-x 2 root root    28 Aug 22 06:17 logs
+-rw-r--r-- 1 root root  2979 Aug 22 06:23 package_app.py
+-rw-r--r-- 1 root root    54 Aug 22 06:15 requirements.txt
+-rw-r--r-- 1 root root   948 Aug 22 06:15 setup.ps1
+-rw-r--r-- 1 root root  1481 Aug 22 06:15 setup.py
+drwxr-xr-x 3 root root    80 Aug 22 06:22 src
+-rw-r--r-- 1 root root 30051 Aug 22 06:23 stamp_catalog_20250822_062329.zip
+drwxr-xr-x 3 root root    20 Aug 22 06:20 static
+drwxr-xr-x 2 root root    95 Aug 22 06:21 templates
+-rw-r--r-- 1 root root  3440 Aug 22 06:23 test_end_to_end.py
+drwxr-xr-x 2 root root    34 Aug 22 06:17 test_images
+-rw-r--r-- 1 root root  1923 Aug 22 06:21 test_log.py
+-rw-r--r-- 1 root root   463 Aug 22 06:22 test_postcard.py
+-rw-r--r-- 1 root root  1436 Aug 22 06:24 test_routes.py
+-rw-r--r-- 1 root root   559 Aug 22 06:17 test_upload.py
+drwxr-xr-x 5 root root    74 Aug 22 06:14 venv

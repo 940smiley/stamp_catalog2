@@ -1,0 +1,78 @@
+Stamp Catalog Application - Workflow Demonstration
+==================================================
+
+1. Project Structure:
+   The application is organized into several directories:
+   - src/: Contains the main application code
+   - templates/: HTML templates for the web interface
+   - static/images/: Storage for uploaded images
+   - logs/: Stamp collection log data
+   - config/: Commerce platform configuration
+
+2. Setup Process:
+   Run either of these scripts to set up the application:
+   - Python: python setup.py
+   - PowerShell (Windows): .\setup.ps1
+   This creates a virtual environment and installs dependencies from requirements.txt
+
+3. Running the Application:
+   After setup, activate the virtual environment and run:
+   python src/app.py
+   The application will start on http://localhost:8000
+
+4. Web Interface:
+   The application has several web pages:
+   - Main page (/): Upload stamps by selecting a photo
+   - Log page (/log): View all cataloged stamps
+   - Postcard page (/postcard): Upload postcards with front and rear images
+   - Edit page (/edit/<id>): Edit stamp details
+   - eBay export (/export/ebay/<id>): Export stamp in eBay-ready format
+
+5. Log Structure:
+   The log file (logs/stamp_log.json) contains entries like this:
+{
+  "id": "demo-id-456",
+  "timestamp": "2025-08-22T10:30:00",
+  "original_image": "sample_stamp.jpg",
+  "straightened_image": "sample_stamp_straightened.jpg",
+  "enhanced_image": "sample_stamp_enhanced.jpg",
+  "item_type": "stamp",
+  "features": {
+    "name": "Sample Stamp",
+    "date": "1950-1960",
+    "cancellation_marks": true,
+    "cancellation_date": "1955-03-15",
+    "letter_or_note": null,
+    "colors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "denomination": "5 cents",
+    "country_of_origin": "United States",
+    "theme": "Commemorative",
+    "type": "block",
+    "value": "$2.50",
+    "suggestions": {
+      "ebay_title": "1950s US Commemorative 5 cent stamp - Red/Blue/White",
+      "ebay_description": "A beautiful commemorative stamp from the United States dating back to the 1950s."
+    }
+  },
+  "user_edits": {}
+}
+
+6. Commerce Platform Integration:
+   The application supports integration with commerce platforms:
+   - Hip Comic
+   - Delcampe
+   Configure API keys in config/commerce_config.json
+
+7. AI Learning:
+   When users edit stamp details, the application learns from these corrections:
+   - Edits are saved in the log entry
+   - Corrections are stored as training data
+   - Future AI detections improve based on user feedback
+
+==================================================
+Demonstration complete!
+Access the application at http://localhost:8000

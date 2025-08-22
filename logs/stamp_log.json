@@ -1,0 +1,32 @@
+[
+  {
+    "id": "4178b125-02b6-438d-bec7-74b1fe38fc1e",
+    "timestamp": "2025-08-22T06:17:46.011488",
+    "original_image": "0c4672e2-c56c-44b2-aaf2-129b455dd623_test_stamp.jpg",
+    "straightened_image": "0c4672e2-c56c-44b2-aaf2-129b455dd623_test_stamp_straightened.jpg",
+    "enhanced_image": "0c4672e2-c56c-44b2-aaf2-129b455dd623_test_stamp_straightened_enhanced.jpg",
+    "item_type": "stamp",
+    "features": {
+      "name": "Sample Stamp",
+      "date": "1950-1960",
+      "cancellation_marks": true,
+      "cancellation_date": "1955-03-15",
+      "letter_or_note": null,
+      "colors": [
+        "red",
+        "blue",
+        "white"
+      ],
+      "denomination": "5 cents",
+      "country_of_origin": "United States",
+      "theme": "Commemorative",
+      "type": "block",
+      "value": "$2.50",
+      "suggestions": {
+        "ebay_title": "1950s US Commemorative 5 cent stamp - Red/Blue/White",
+        "ebay_description": "A beautiful commemorative stamp from the United States dating back to the 1950s. This stamp has a denomination of 5 cents and features red, blue, and white colors. It has cancellation marks from March 15, 1955, indicating it was used. Perfect for collectors interested in mid-20th century US postal history."
+      }
+    },
+    "user_edits": {}
+  }
+]

@@ -1,0 +1,2 @@
+Status Code: 200
+Response: {'stamp_id': '4178b125-02b6-438d-bec7-74b1fe38fc1e', 'success': True}

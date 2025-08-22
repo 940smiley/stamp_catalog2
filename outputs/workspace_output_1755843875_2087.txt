@@ -1,0 +1,4 @@
+Testing additional modules...
+✓ Commerce integrator loaded with platforms: hipcomic, delcampe
+✓ AI learner initialized. Training stats: {'total_examples': 0, 'last_training': None}
+All modules working correctly!

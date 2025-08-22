@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Stamp Catalog - Upload{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">Stamp Catalog Application</h1>
+        
+        <div class="feature-highlight">
+            <h4>Features:</h4>
+            <ul>
+                <li>Upload stamp photos by dropping them into the directory or using the upload form</li>
+                <li>Automatic image straightening and enhancement for clarity</li>
+                <li>AI-powered stamp identification with detailed characteristics</li>
+                <li>Duplicate detection to prevent logging the same stamp multiple times</li>
+                <li>Editable log entries - correct any AI mistakes</li>
+                <li>Export to eBay-ready format with listing suggestions</li>
+                <li>Integration with commerce platforms (Hip Comic, Delcampe, etc.)</li>
+                <li>Specialized postcard support with front/rear image requirements</li>
+                <li>Cleanup functionality to reset your log if needed</li>
+            </ul>
+        </div>
+        
+        <div class="card stamp-card">
+            <div class="card-body">
+                <h5 class="card-title">Upload Stamp Photo</h5>
+                <p class="card-text">Select a photo of your stamp to catalog it automatically.</p>
+                
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="stampPhoto" class="form-label">Stamp Photo</label>
+                        <input class="form-control" type="file" id="stampPhoto" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Catalog Stamp</button>
+                </form>
+                
+                <div id="result" class="mt-3" style="display: none;">
+                    <div class="alert alert-success" role="alert">
+                        Stamp successfully cataloged! <a href="/log" class="alert-link">View your log</a>
+                    </div>
+                </div>
+                
+                <div id="error" class="mt-3" style="display: none;">
+                    <div class="alert alert-danger" role="alert">
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const fileInput = document.getElementById('stampPhoto');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        showError('Please select a file to upload');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            showError(data.error);
+        } else {
+            showSuccess();
+        }
+    })
+    .catch(error => {
+        showError('An error occurred during upload: ' + error.message);
+    });
+});
+
+function showSuccess() {
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('error').style.display = 'none';
+    document.getElementById('stampPhoto').value = '';
+}
+
+function showError(message) {
+    document.getElementById('errorMessage').textContent = message;
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+}
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

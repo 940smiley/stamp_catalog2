@@ -1,0 +1,1 @@
+-rw-r--r-- 1 root root 1104 Aug 22 06:23 stamp_catalog/INSTALLATION_GUIDE.md

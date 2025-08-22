@@ -1,0 +1,7 @@
+total 28
+drwxr-xr-x 3 root root    80 Aug 22 06:22 .
+drwxr-xr-x 9 root root  4096 Aug 22 06:24 ..
+drwxr-xr-x 2 root root    73 Aug 22 06:23 __pycache__
+-rw-r--r-- 1 root root  3456 Aug 22 06:22 ai_learning.py
+-rw-r--r-- 1 root root 11050 Aug 22 06:22 app.py
+-rw-r--r-- 1 root root  5362 Aug 22 06:22 commerce.py

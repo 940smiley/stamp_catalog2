@@ -1,0 +1,3 @@
+root         994  0.0  0.0 1574456 70360 pts/0   Sl+  06:18   0:00 python src/app.py
+root        1026  0.0  0.0 1722948 70632 pts/0   Sl+  06:18   0:00 /workspace/stamp_catalog/venv/bin/python src/app.py
+root        1075  0.0  0.0   3880  1816 pts/0    S+   06:19   0:00 grep app.py

@@ -1,0 +1,4 @@
+  File "<string>", line 11
+    (&quot;, &quot;.join(platforms))
+     ^
+SyntaxError: f-string: invalid syntax

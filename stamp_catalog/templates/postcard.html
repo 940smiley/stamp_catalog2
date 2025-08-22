@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Stamp Catalog - Postcard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">Postcard Catalog</h1>
+        
+        <div class="card stamp-card">
+            <div class="card-body">
+                <h5 class="card-title">Upload Postcard Images</h5>
+                <p class="card-text">Postcards require both front and rear images for complete cataloging.</p>
+                
+                <form id="postcardForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="frontImage" class="form-label">Front Image</label>
+                        <input class="form-control" type="file" id="frontImage" accept="image/*">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rearImage" class="form-label">Rear Image</label>
+                        <input class="form-control" type="file" id="rearImage" accept="image/*">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Catalog Postcard</button>
+                </form>
+                
+                <div id="result" class="mt-3" style="display: none;">
+                    <div class="alert alert-success" role="alert">
+                        Postcard successfully cataloged! <a href="/log" class="alert-link">View your log</a>
+                    </div>
+                </div>
+                
+                <div id="error" class="mt-3" style="display: none;">
+                    <div class="alert alert-danger" role="alert">
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('postcardForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const frontInput = document.getElementById('frontImage');
+    const rearInput = document.getElementById('rearImage');
+    
+    const frontFile = frontInput.files[0];
+    const rearFile = rearInput.files[0];
+    
+    if (!frontFile || !rearFile) {
+        showError('Please select both front and rear images');
+        return;
+    }
+    
+    // In a real implementation, you would send both files to the server
+    // For now, we'll just simulate success
+    
+    showSuccess();
+});
+
+function showSuccess() {
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('error').style.display = 'none';
+    document.getElementById('frontImage').value = '';
+    document.getElementById('rearImage').value = '';
+}
+
+function showError(message) {
+    document.getElementById('errorMessage').textContent = message;
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+}
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

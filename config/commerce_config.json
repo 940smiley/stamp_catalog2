@@ -1,0 +1,10 @@
+{
+  "hipcomic": {
+    "api_endpoint": "https://api.hipcomic.com/v1/listings",
+    "api_key": "YOUR_API_KEY_HERE"
+  },
+  "delcampe": {
+    "api_endpoint": "https://api.delcampe.net/v1/items",
+    "api_key": "YOUR_API_KEY_HERE"
+  }
+}
