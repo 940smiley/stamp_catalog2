@@ -1,11 +1,12 @@
 import os
 import cv2
 import numpy as np
+from PIL import Image
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 import json
 from datetime import datetime
 import uuid
-from ai_learning import AILearner
+from .ai_learning import AILearner
 
 app = Flask(__name__, static_folder='../static', template_folder='../templates')
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'static', 'images')
@@ -30,29 +31,57 @@ def save_log(log_data):
     with open(app.config['LOG_FILE'], 'w') as f:
         json.dump(log_data, f, indent=2)
 
+
+def calculate_image_hash(image_path, hash_size: int = 8) -> str:
+    """Generate a perceptual hash for the given image."""
+    image = Image.open(image_path).convert("L").resize((hash_size, hash_size), Image.LANCZOS)
+    pixels = np.array(image)
+    avg = pixels.mean()
+    diff = pixels > avg
+    bits = ''.join('1' if x else '0' for x in diff.flatten())
+    return '{:0x}'.format(int(bits, 2))
+
+
+def detect_dominant_colors(image_path, k: int = 3) -> list[str]:
+    """Return up to ``k`` dominant colors from an image as hex strings."""
+    image = cv2.imread(image_path)
+    if image is None:
+        return []
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    pixels = image.reshape(-1, 3)
+    unique_colors = np.unique(pixels, axis=0)
+    if len(unique_colors) <= k:
+        colors = unique_colors
+    else:
+        pixels = np.float32(pixels)
+        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+        _, _, centers = cv2.kmeans(pixels, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+        colors = centers
+    return ['#%02x%02x%02x' % tuple(map(int, c)) for c in colors]
+
+
 def detect_stamp_features(image_path):
-    """Analyze image and detect stamp features"""
-    # This is a placeholder for actual AI detection
-    # In a real implementation, you would use a trained model
-    
-    # For now, we'll return sample data
+    """Analyze image and detect stamp features."""
+    colors = detect_dominant_colors(image_path)
+
     return {
         "name": "Sample Stamp",
         "date": "1950-1960",
         "cancellation_marks": True,
         "cancellation_date": "1955-03-15",
         "letter_or_note": None,
-        "colors": ["red", "blue", "white"],
+        "colors": colors,
         "denomination": "5 cents",
         "country_of_origin": "United States",
         "theme": "Commemorative",
         "type": "block",
         "value": "$2.50",
         "suggestions": {
-            "ebay_title": "1950s US Commemorative 5 cent stamp - Red/Blue/White",
-            "ebay_description": "A beautiful commemorative stamp from the United States dating back to the 1950s. This stamp has a denomination of 5 cents and features red, blue, and white colors. It has cancellation marks from March 15, 1955, indicating it was used. Perfect for collectors interested in mid-20th century US postal history."
+            "ebay_title": "1950s US Commemorative 5 cent stamp",
+            "ebay_description": "A beautiful commemorative stamp from the United States dating back to the 1950s.",
         }
     }
+
 
 def enhance_image(image_path):
     """Enhance image for better clarity"""
@@ -86,12 +115,13 @@ def straighten_image(image_path):
     
     return straightened_path
 
-def is_duplicate(image_path, log_data):
-    """Check if image is a duplicate of an already logged stamp"""
-    # This is a placeholder for actual duplicate detection
-    # In a real implementation, you would use image hashing or feature matching
-    
-    # For now, we'll just return False
+def is_duplicate(image_hash: str, log_data: list) -> bool:
+    """Check if an image hash already exists in the log."""
+    for entry in log_data:
+        if entry.get("image_hash") == image_hash:
+            return True
+        if entry.get("front_hash") == image_hash or entry.get("rear_hash") == image_hash:
+            return True
     return False
 
 def categorize_item(image_path):
@@ -126,12 +156,15 @@ def upload_postcard():
         
         front_file.save(front_path)
         rear_file.save(rear_path)
-        
+
+        front_hash = calculate_image_hash(front_path)
+        rear_hash = calculate_image_hash(rear_path)
+
         # Load current log
         log_data = load_log()
-        
+
         # Check for duplicates
-        if is_duplicate(front_path, log_data) or is_duplicate(rear_path, log_data):
+        if is_duplicate(front_hash, log_data) or is_duplicate(rear_hash, log_data):
             # Clean up uploaded files if duplicate detected
             os.remove(front_path)
             os.remove(rear_path)
@@ -161,6 +194,8 @@ def upload_postcard():
             "timestamp": datetime.now().isoformat(),
             "front_image": front_filename,
             "rear_image": rear_filename,
+            "front_hash": front_hash,
+            "rear_hash": rear_hash,
             "front_straightened": os.path.basename(front_straightened_path),
             "rear_straightened": os.path.basename(rear_straightened_path),
             "front_enhanced": os.path.basename(front_enhanced_path),
@@ -198,12 +233,15 @@ def upload_stamp():
     filename = f"{uuid.uuid4()}_{file.filename}"
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
-    
+
+    image_hash = calculate_image_hash(file_path)
+
     # Load current log
     log_data = load_log()
-    
+
     # Check for duplicates
-    if is_duplicate(file_path, log_data):
+    if is_duplicate(image_hash, log_data):
+        os.remove(file_path)
         return jsonify({"error": "Duplicate stamp detected"}), 400
     
     # Straighten image if needed
@@ -223,6 +261,7 @@ def upload_stamp():
         "id": str(uuid.uuid4()),
         "timestamp": datetime.now().isoformat(),
         "original_image": filename,
+        "image_hash": image_hash,
         "straightened_image": os.path.basename(straightened_path),
         "enhanced_image": os.path.basename(enhanced_path),
         "item_type": item_type,
